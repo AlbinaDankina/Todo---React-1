@@ -1,0 +1,14 @@
+h1 {
+  width: 100%;
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+  color: rgba(175, 47, 47, 0.15);
+  font-family: sans-serif;
+  color: #8e8e8e;
+  -webkit-text-rendering: optimizeLegibility;
+  -moz-text-rendering: optimizeLegibility;
+  text-rendering: optimizeLegibility;
+}
+
+/*# sourceMappingURL=app-header-name.css.map */

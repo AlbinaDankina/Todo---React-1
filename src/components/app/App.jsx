@@ -1,7 +1,10 @@
+import { useState } from "react";
+
 import Input from "../input/input";
 import TaskList from "../task-list/task-list";
 import Footer from "../footer/footer";
-import { useState } from "react";
+import { Context } from '../context/context';
+
 
 const App = () => {
   
@@ -80,7 +83,6 @@ const App = () => {
     }
   }
 
- 
   const onDeleteDone = () => {
     const newTaskList = taskList.filter((t) => !t.done);
     setTaskList(newTaskList);
@@ -101,7 +103,8 @@ const App = () => {
   };
  
   return (
-    <div className="todoapp">
+    <Context.Provider value={{ onDelete, onToggleDone, setUpdatedItem }}>
+       <div className="todoapp">
 
       <header className="header">
         <h1>todos</h1>
@@ -113,19 +116,15 @@ const App = () => {
         />
       </header>
       
-      <TaskList
-        taskList={showFiltered(taskList, filter)}
-        onDelete={onDelete}
-        // onToggleImportant={onToggleImportant}
-        onToggleDone={onToggleDone}
-        setUpdatedItem={setUpdatedItem}
-      />
+      <TaskList taskList={showFiltered(taskList, filter)} />
+      
       <Footer
         onFilterChange={onFilterChange}
         onDeleteDone={onDeleteDone}
         tasksLeft={tasksLeft}
       />
     </div>
+    </Context.Provider>
   );
 };
 

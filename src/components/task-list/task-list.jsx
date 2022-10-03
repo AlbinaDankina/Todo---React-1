@@ -1,17 +1,10 @@
 import Task from "../task/task";
 
-const TaskList = ({ taskList, onDelete, onToggleDone, setUpdatedItem}) => {  
+const TaskList = ({ taskList }) => {  
  
    let task = taskList.map((t) => {
-      return (
-         <Task 
-            key={t.id}
-            t={t}
-            onDelete={onDelete}
-            onToggleDone={onToggleDone}
-            setUpdatedItem={setUpdatedItem}
-         />
-   )});
+      return (<Task key={t.id} t={t} />)
+   });
    
  return (
     taskList !== [] ? 

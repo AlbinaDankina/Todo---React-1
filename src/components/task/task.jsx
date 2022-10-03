@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { Context } from "../context/context";
 
-const Task = ({ t, onDelete, onToggleDone, setUpdatedItem }) => { 
+
+const Task = ({ t }) => { 
     
-    // id той таски, которую редактируем
-    const [editedTaskId, setEditedTaskId] = useState(null); 
+    const { onDelete, onToggleDone, setUpdatedItem } = useContext(Context);
 
-    // данные по таймеру для дальнейшего использования в useEffect
+    const [editedTaskId, setEditedTaskId] = useState(null); // id той таски, которую редактируем
     const [time, setTime] = useState(0);
     const [timerOn, setTimerOn] = useState(false);
 
@@ -22,25 +23,24 @@ const Task = ({ t, onDelete, onToggleDone, setUpdatedItem }) => {
         return (() =>  clearInterval(interval));
     }, [timerOn, t.id]);
     
+
     return (
         <li key={t.id} className={t.done && editedTaskId === null ? 'completed' : ''}>
             <div className="view">
-                <input id={t.id} type="checkbox" className="toggle"
+
+                <input
+                    id={t.id}
+                    type="checkbox"
+                    className="toggle"
                     onClick={(e) => {
                         e.stopPropagation();
-                        if (editedTaskId === null) {
-                            onToggleDone(t.id)
-                        }
+                        if (editedTaskId === null) onToggleDone(t.id)
                     }}
                 />   
-                <label
-                    className="title"
-                    htmlFor={t.id}
-                    style={{ textDecoration: t.done && editedTaskId === null ? 'line-through' : 'none' }}
-                >
-                 
+                <label  className="title" htmlFor={t.id}
+                        style={{ textDecoration: t.done && editedTaskId === null ? 'line-through' : 'none' }} >
+                            
                     <form className="title" onSubmit={(e) => { e.preventDefault(); setEditedTaskId(null) }} >
-                        
                         {editedTaskId !== null ?
                             <input
                                 id={t.id}
@@ -52,17 +52,17 @@ const Task = ({ t, onDelete, onToggleDone, setUpdatedItem }) => {
                             <span>{t.text}</span>}                
                     </form>
                 </label>
-                
-                    <span className="description" style={editedTaskId !== null ? {opacity: '0' } : {opacity : '1'}}>
+
+                <span className="description" style={editedTaskId !== null ? {opacity: '0' } : {opacity : '1'}}>
                     <button className="icon icon-play" onClick={() => setTimerOn(true)} />
-                        <button className="icon icon-pause" onClick={() => setTimerOn(false)} />
-                    
-                        <span className="timer timer-min">{("0" + Math.floor((time / 60000) % 60)).slice(-2)}</span>
-                        <span className="timer timer-sec">{("0" + Math.floor((time/1000)%60)).slice(-2)} </span>
-                        <span className="timer">{("0" + ((time/10)%100)).slice(-2)}</span>
-                    </span>                     
-                    <button className="icon icon-edit" onClick={() => setEditedTaskId(t.id)} />
-                    <button className="icon icon-destroy" onClick={() => onDelete(t.id)} />
+                    <button className="icon icon-pause" onClick={() => setTimerOn(false)} />
+                    <span className="timer timer-min">{("0" + Math.floor((time / 60000) % 60)).slice(-2)}</span>
+                    <span className="timer timer-sec">{("0" + Math.floor((time/1000)%60)).slice(-2)} </span>
+                    <span className="timer">{("0" + ((time/10)%100)).slice(-2)}</span>
+                </span>                     
+                
+                <button className="icon icon-edit" onClick={() => setEditedTaskId(t.id)} />
+                <button className="icon icon-destroy" onClick={() => onDelete(t.id)} />
                     {/* <span className="description">created X seconds ago</span> */}
                     {/* <button className="icon icon-important" onClick={() => onToggleImportant(t.id)} />*/}
             </div>

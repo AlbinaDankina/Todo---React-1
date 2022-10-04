@@ -2,8 +2,8 @@ import Task from "../task/task";
 
 const TaskList = ({ taskList }) => {  
  
-   let task = taskList.map((t) => {
-      return (<Task key={t.id} t={t} />)
+   let task = taskList.map((task) => {
+      return (<Task key={task.id} task={task} />)
    });
    
  return (
